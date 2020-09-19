@@ -1,0 +1,125 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Hero Section-->
+    <section style="background: url({% static 'img/hero.png' %}); background-size: cover; background-position: center;" class="hero shadow">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <h1>If you love Technology, you are in the right place.</h1><a href="{% url 'post-list' %}" class="hero-link">Discover More</a>
+          </div>
+      </div>
+    </section>
+    <!-- Intro Section-->
+    <section class="intro">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <h2 class="h3">We bring you the news...</h2>
+            <p class="text-big">Our team of tech geeks is in charge of gathering <strong>all the news</strong> and bringing them to you, with <strong>all the details</strong>, to keep you always up to date of everything that happens in the <strong>tech world</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="featured-posts no-padding-top">
+      <div class="container">
+        <!-- Post-->
+        {% for obj in object_list %}
+        <div class="row d-flex align-items-stretch">
+          {% if not forloop.first and not forloop.last %}
+          <div class="image col-lg-5 img-fluid"><img src="{{ obj.thumbnail.url }}" alt="..."></div>
+          {% endif %}
+          <div class="text col-lg-7">
+            <div class="text-inner d-flex align-items-center">
+              <div class="content">
+                <header class="post-header">
+                  <div class="category">
+                    {% for cat in obj.categories.all %}
+                    <a href="#">{{ cat }}</a>
+                    {% endfor %}
+                  </div>
+                  <a href="{{ post.get_absolute_url }}">
+                    <h2 class="h4">{{ obj.title }}</h2>
+                  </a>
+                </header>
+                <p>{{ obj.overview|linebreaks|truncatechars:200 }}</p>
+                <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{ obj.author.profile_picture.url }}" alt="..." class="img-fluid"></div>
+                    <div class="title"><span>{{ obj.author }}</span></div></a>
+                  <div class="date"><i class="icon-clock"></i> {{ obj.timestamp|timesince }} ago</div>
+                  <div class="comments"><i class="icon-comment"></i>{{ obj.comment_count }}</div>
+                </footer>
+              </div>
+            </div>
+          </div>
+          {% if forloop.first or forloop.last %}
+          <div class="image col-lg-5"><img src="{{ obj.thumbnail.url }}" alt="..."></div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <!-- Divider Section-->
+    <section style="background: url({% static 'img/divider-bg.jpg' %}); background-size: cover; background-attachment: fixed;" class="divider shadow">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10">
+            <blockquote class="h2 pb-3">“The Web as I envisaged it, we have not seen it yet. The future is still so much bigger than the past.”</blockquote>
+            <footer class="blockquote-footer my-2 h3">Tim Berners-Lee, <cite title="Source Title">Inventor of the World Wide Web.</cite></footer>
+            <a href="{% url 'post-list' %}" class="hero-link">View More</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Latest Posts -->
+    <section class="latest-posts"> 
+      <div class="container">
+        <header> 
+          <h2>Latest from the blog</h2>
+          <p class="text-big">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        </header>
+        <div class="row">
+          {% for obj in latest %}
+          <div class="post col-md-4">
+            <div class="post-thumbnail"><a href="#"><img src="{{ obj.thumbnail.url }}" alt="..." class="img-fluid"></a></div>
+            <div class="post-details">
+              <div class="post-meta d-flex justify-content-between">
+                <div class="date">{{ obj.timestamp }}</div>
+                <div class="category">
+                  {% for cat in obj.categories.all %}
+                  <a href="#">{{ cat }}</a>
+                  {% endfor %}
+                  </div>
+              </div><a href="#">
+                <h3 class="h4">{{ obj.title }}</h3></a>
+              <p class="text-muted">{{ obj.overview|linebreaks|truncatechars:200 }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- Gallery Section-->
+    <section class="gallery no-padding">    
+      <div class="row">
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><img src="{% static 'img/gallery-1.jpg' %}" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"></div></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><img src="{% static 'img/gallery-2.jpg' %}" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"></div></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><img src="{% static 'img/gallery-3.jpg' %}" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"></div></div>
+        </div>
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+          <div class="item"><img src="{% static 'img/gallery-4.jpg' %}" alt="..." class="img-fluid">
+              <div class="overlay d-flex align-items-center justify-content-center"></div></div>
+        </div>
+      </div>
+    </section>
+
+{% endblock content %}
